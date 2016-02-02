@@ -18,6 +18,9 @@ class Config:
     MAINTRAQ_MAIL_SENDER = 'MainTraq Admin'
     MAINTRAQ_ADMIN = os.environ.get('MAINTRAQ_ADMIN')
 
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+
     @staticmethod
     def init_app(app):
         pass
@@ -30,10 +33,15 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DEV_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'dev-data.db')
 
 
 class TestingConfig(Config):
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DEV_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'test-data.db')
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = False
 
 config = {
     'development': DevelopmentConfig,
