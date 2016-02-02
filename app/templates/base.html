@@ -11,7 +11,7 @@
 
 {% block navbar %}
 <div class="navbar navbar-default" role="navigation">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header text-center">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -20,20 +20,22 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
-                <img class="img-rounded" height="40" width="40" src="{{ url_for('static', filename='logo.png')}}" alt="Logo" />
+                <img class="img-rounded" src="{{ url_for('static', filename='logo.png')}}" alt="Brand" />
             </a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">MainTraq</a></li>
+                <li><h2><a href="{{ url_for('main.index') }}" class="brand-link">MainTraq</a></h2></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Account <b class="caret"></b>
+                        {{ current_user.username }} <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+                        <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                     </ul>
                 </li>

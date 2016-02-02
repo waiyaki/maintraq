@@ -63,3 +63,43 @@ class RegistrationForm(Form):
         if not carrier._is_mobile(phonenumberutil.number_type(parsed)):
             raise ValidationError("This phone number doesn't look like a mobile phone number")
         self.phonenumber_locale = phonenumbers.region_code_for_country_code(parsed.country_code)
+
+
+class ChangePasswordForm(Form):
+    old_password = PasswordField('Old Password', validators=[Required()])
+    password = PasswordField(
+        'New Password',
+        validators=[Required(), EqualTo('password2', message="Passwords did not match.")]
+    )
+    password2 = PasswordField('Confirm New Password', validators=[Required()])
+    submit = SubmitField('Update Password')
+
+
+class PasswordResetRequestForm(Form):
+    email = StringField('Email', validators=[Required(), Length(1, 64), Email()])
+    submit = SubmitField('Reset Password')
+
+
+class PasswordResetForm(Form):
+    email = StringField('Email', validators=[Required(), Email(), Length(1, 64)])
+    password = PasswordField(
+        'New Password',
+        validators=[Required(), EqualTo('password2', message="Passwords did not match.")]
+    )
+    password2 = PasswordField('Confirm New Password', validators=[Required()])
+    submit = SubmitField('Reset Password')
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first() is None:
+            raise ValidationError("Unknown email address.")
+
+
+class ChangeEmailForm(Form):
+    email = StringField('New Email', validators=[Required(), Length(1, 64),
+                                                 Email()])
+    password = PasswordField('Password', validators=[Required()])
+    submit = SubmitField('Update Email Address')
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('Email already registered.')

@@ -5,3 +5,9 @@
 .auth-register-form {
     margin-top: 20px;
 }
+
+.brand-link, .brand-link:hover {
+    text-decoration: none;
+    cursor: default;
+    color: inherit;
+}
