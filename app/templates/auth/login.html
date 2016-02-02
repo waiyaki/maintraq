@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "partials/_alert_messages.html" as macros %}
+
+{% block title %}
+    MainTraq - Login
+{% endblock title %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 auth-login-form">
+            <div class="row">
+                <h1 class="text-center">Login</h1>
+                <hr>
+                <div class="col-sm-10 col-sm-offset-1">
+                    {{ macros.render_alert('alert-danger') }}
+                </div>
+                <div class="col-sm-8 col-sm-offset-2">
+                    {{ wtf.quick_form(form) }}
+                    <br/>
+                    New User?
+                    <a href="{{ url_for('auth.register') }}">Click here to register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

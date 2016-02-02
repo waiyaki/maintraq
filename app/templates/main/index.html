@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "partials/_alert_messages.html" as macros %}
 
 {% block title %}MainTraq - Home{% endblock %}
 
 {% block page_content %}
-
+    {{ macros.render_alert('alert-warning') }}
 {% endblock %}

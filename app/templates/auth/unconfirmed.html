@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}MainTraq - Confirm your account{% endblock %}
+{% import "partials/_alert_messages.html" as macros %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        Hello, {{ current_user.username }}!
+    </h1>
+    <h3>You have not confirmed your account yet.</h3>
+    <div class="row">
+        <div class="col-xs-8 col-sm-6 col-md-6 pull-left">
+            {{ macros.render_alert('alert-danger', dismissable=False) }}
+        </div>
+    </div>
+    <p>
+        Before you can access this site you need to confirm your account.
+        Check your inbox, you should have received an email with a confirmation link.
+    </p>
+    <p>
+        Need another confirmation email?
+        <a href="{{ url_for('auth.resend_confirmation') }}">Click here</a>
+    </p>
+</div>
+{% endblock %}
