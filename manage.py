@@ -3,7 +3,7 @@ import os
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 
-from app.models import User
+from app.models import User, Task, Facility
 from app import create_app, db
 
 app = create_app(os.getenv('MAINTRAQ_CONFIG') or 'production')
@@ -12,7 +12,7 @@ manager = Manager(app)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User)
+    return dict(app=app, db=db, User=User, Task=Task, Facility=Facility)
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)

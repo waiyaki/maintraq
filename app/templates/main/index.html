@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "partials/_alert_messages.html" as macros %}
+{% import "partials/_tasks.html" as render %}
+
 
 {% block title %}MainTraq - Home{% endblock %}
 
 {% block page_content %}
     {{ macros.render_alert('alert-warning') }}
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 col-md-10 pull-right">
+            {{ render.render_tasks(tasks) }}
+        </div>
+    </div>
 {% endblock %}
