@@ -21,9 +21,19 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
 
+    is_admin = db.Column(db.Boolean, default=False)
+    is_maintenance = db.Column(db.Boolean, default=False)
+
     # More fields for profile info
     name = db.Column(db.String(64))
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        # Make user admin if they are the designated admins in the env
+        if not self.is_admin and not self.is_maintenance:
+            if self.email == current_app.config['MAINTRAQ_ADMIN']:
+                self.is_admin = True
 
     @property
     def password(self):
