@@ -115,7 +115,7 @@ class User(UserMixin, db.Model):
 
     @property
     def assigned(self):
-        return self.tasks.filter_by(assigned_to=self)
+        return Task.query.filter_by(assigned_to=self)
 
     @staticmethod
     def fake(count=50):

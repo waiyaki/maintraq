@@ -1,40 +1,47 @@
-{% macro render_tasks(tasks) %}
+{% macro render_tasks(current_user, tasks, tasks_info={}) %}
     <div class="panel panel-primary">
         <div class="panel-heading text-center">
-            <h4>Tasks</h4>
+            {% if current_user.is_admin %}
+                <h3>All Filed Repair Requests.</h3>
+            {% else %}
+                <h3>All Repairs Assigned to You</h3>
+            {% endif %}
         </div>
+        {% if current_user.is_admin %}
             <div class="panel-body">
                 <p>Some things about the tasks.</p>
             </div>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Requested By
-                </th>
-                <th>
-                    Requested On
-                </th>
-                <th>
-                    Confirmed (Admin)
-                </th>
-                <th>
-                    Assigned
-                </th>
-                <th>
-                    Acknowledged (Maintainer)
-                </th>
-                <th>
-                    Status
-                </th>
-                <th>
-                    Completed On
-                </th>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
+        {% endif %}
+        {% if tasks|length > 0 %}
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Requested By
+                    </th>
+                    <th>
+                        Requested On
+                    </th>
+                    <th>
+                        Confirmed (Admin)
+                    </th>
+                    <th>
+                        Assigned
+                    </th>
+                    <th>
+                        Acknowledged (Maintainer)
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Completed On
+                    </th>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
                     <tr>
                         <td>
                             {{ task.description | truncate(30, True) }}
@@ -59,15 +66,25 @@
                         </td>
                         <td>
                             {% if task.date_completed %}
-                                {{ task.date_completed.strftime('%d %b, %Y at %H:%M') }}
+                            {{ task.date_completed.strftime('%d %b, %Y at %H:%M') }}
                             {% else %}
-                                <small class="text-muted">Not Completed Yet.</small>
+                            <small class="text-muted">Not Completed Yet.</small>
                             {% endif %}
 
                         </td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                    <h2 class="page-header text-center">
+                        No tasks found.
+                    </h2>
+                </div>
+            </div>
+        {% endif %}
+
     </div>
 {% endmacro %}

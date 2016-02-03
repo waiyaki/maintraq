@@ -3,26 +3,25 @@
 {% import "partials/_alert_messages.html" as macros %}
 
 {% block title %}
-    MainTraq - Login
+    MainTraq - Task Request
 {% endblock title %}
 
 {% block page_content %}
     <div class="row">
-        <div class="col-md-6 col-md-offset-3 auth-login-form">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <div class="row">
-                <h1 class="text-center">Login</h1>
+                <h1 class="text-center">Maintenance Request</h1>
                 <hr>
+                <div class="col-sm-8 col-sm-offset-2">
+                    <p class="text-muted text-center">
+                        Please fill in the form below to and submit it to file a maintenance request.
+                    </p>
+                </div>
                 <div class="col-sm-10 col-sm-offset-1">
                     {{ macros.render_alert('alert-danger') }}
                 </div>
                 <div class="col-sm-8 col-sm-offset-2">
                     {{ wtf.quick_form(form) }}
-                    <br/>
-                    New User?
-                    <a href="{{ url_for('auth.register') }}">Click here to register</a>
-                    <br>
-                    Forgot your password?
-                    <a href="{{ url_for('auth.password_reset_request')}}">Click Here.</a>
                 </div>
             </div>
         </div>
