@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, abort
 
 from flask.ext.login import login_required, current_user
 
@@ -35,7 +35,8 @@ def task_request():
             detailed_info=form.detailed_info.data
         )
         db.session.add(task)
-        return redirect(url_for('main.index'))
+        db.session.commit()     # Commit here to get access to task id
+        return redirect(url_for('main.view_task', task_id=task.id))
     return render_template('main/task-request.html', form=form)
 
 
@@ -43,5 +44,7 @@ def task_request():
 @login_required
 def view_task(task_id):
     task = Task.query.get_or_404(task_id)
-
+    if not (current_user.is_admin or current_user.is_maintenance):
+        if task.requested_by_id != current_user.id:
+            abort(403)
     return render_template('main/task-detail.html', task=task)

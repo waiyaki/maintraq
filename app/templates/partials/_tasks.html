@@ -44,7 +44,9 @@
                     {% for task in tasks %}
                     <tr>
                         <td>
-                            {{ task.description | truncate(30, True) }}
+                            <a href="{{ url_for('main.view_task', task_id=task.id) }}">
+                                {{ task.description | truncate(30, True) }}
+                            </a>
                         </td>
                         <td>
                             {{ task.requested_by.username }}
@@ -85,6 +87,5 @@
                 </div>
             </div>
         {% endif %}
-
     </div>
 {% endmacro %}

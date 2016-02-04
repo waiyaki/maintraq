@@ -11,3 +11,7 @@
     cursor: default;
     color: inherit;
 }
+
+.task-type-header a {
+    text-decoration: none;
+}
