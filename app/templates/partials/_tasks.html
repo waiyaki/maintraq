@@ -1,5 +1,5 @@
 {% macro render_tasks(current_user, tasks, tasks_info={}) %}
-    <div class="panel panel-primary">
+    <div class="panel panel-primary tasks-panel">
         <div class="panel-heading text-center">
             {% if current_user.is_admin %}
                 <h3>All Filed Repair Requests.</h3>
