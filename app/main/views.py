@@ -4,11 +4,11 @@ from flask.ext.login import login_required, current_user
 
 from app import db
 from app.main import main
-from app.models import Task, User, TaskStatus
+from app.models import Task, User, TaskStatus, Facility
 from app.utils import send_email
 
 from app.main.forms import (
-    TaskRequestForm, MaintainerTaskUpdateForm, AdminTaskUpdateForm, RejectTaskForm
+    TaskRequestForm, MaintainerTaskUpdateForm, AdminTaskUpdateForm, RejectTaskForm, FacilityForm
 )
 
 
@@ -18,7 +18,8 @@ def index():
     tasks = []
     if current_user.is_admin:
         tasks = Task.query.order_by(Task.date_requested.desc()).all()
-        return render_template('main/index.html', tasks=tasks, tasks_info={})
+        pending = len([task for task in tasks if not task.resolved])
+        return render_template('main/index.html', tasks=tasks, tasks_info={'pending': pending})
     elif current_user.is_maintenance:
         assigned = current_user.assigned.all()
         return render_template('main/index.html', tasks=assigned)
@@ -217,3 +218,14 @@ def send_mail(
             "main/email/task-confirmed",
             task=task
         )
+
+
+@main.route('/facility/create', methods=['GET', 'POST'])
+def create_facility():
+    form = FacilityForm()
+
+    if form.validate_on_submit():
+        facility = Facility(name=form.name.data)
+        db.session.add(facility)
+        return redirect(url_for('main.index'))
+    return render_template('main/create-facility.html', form=form)

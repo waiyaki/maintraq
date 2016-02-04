@@ -73,3 +73,12 @@ class AdminTaskUpdateForm(CommonTaskDetailsForm):
 
 class RejectTaskForm(Form):
     rejection_reasons = TextAreaField("Comments about this rejection.")
+
+
+class FacilityForm(Form):
+    name = StringField("Facility Name", validators=[Required()])
+    submit = SubmitField("Create")
+
+    def validate_name(self, field):
+        if Facility.query.filter_by(name=field.data).first():
+            raise ValidationError("This Facility exists.")

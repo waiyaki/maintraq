@@ -13,7 +13,7 @@
         </div>
         {% if current_user.is_admin %}
             <div class="panel-body">
-                <p>Some things about the tasks.</p>
+                <p class="text-muted">Pending Tasks: {{ tasks_info.pending }}</p>
             </div>
         {% endif %}
         {% if tasks|length > 0 %}
