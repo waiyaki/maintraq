@@ -3,8 +3,11 @@
         <div class="panel-heading text-center">
             {% if current_user.is_admin %}
                 <h3>All Filed Repair Requests.</h3>
-            {% else %}
+            {% endif %}
+            {% if current_user.is_maintenance %}
                 <h3>All Repairs Assigned to You</h3>
+            {% else %}
+                <h3>All of Your Pending Maintenance Requests.</h3>
             {% endif %}
         </div>
         {% if current_user.is_admin %}

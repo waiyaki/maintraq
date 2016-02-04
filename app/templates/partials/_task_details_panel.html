@@ -1,0 +1,80 @@
+{% macro details_panel(task) %}
+<div class="panel {% if task.resolved %}panel-primary {% else %}panel-danger{% endif %}" id="details-panel">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ task.description|truncate(40, True) }}
+            {% if task.resolved %}
+            <span class="label label-success pull-right">Done</span>
+            {% else %}
+            <span class="label label-danger pull-right">Pending</span>
+            {% endif %}
+        </h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped detail-table">
+            <tbody>
+                <tr>
+                    <td>Task Type</td>
+                    <td>{{ task.description }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        Detailed Information
+                    </td>
+                    <td>
+                        {{ task.detailed_info }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Facility</td>
+                    <td>
+                        {{ task.facility.name }}
+                    </td>
+                </tr>
+                <tr {% if not task.assigned_to is defined %}class="warning"{% endif %}>
+                    <td>Assigned To</td>
+                    <td>
+                        {% if task.assigned_to is defined %}
+                            {{ task.assigned_to.username }}
+                        {% else %}
+                        <small><span class="text-muted">No personnel assigned.</span></small>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date Requested</td>
+                    <td>{{ task.date_requested }}</td>
+                </tr>
+                <tr>
+                    <td>Requested By:</td>
+                    <td>
+                        {{ task.requested_by.username }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Confirmed (by Admin)</td>
+                    <td>
+                        {{ task.confirmed }}
+                    </td>
+                </tr>
+                {% if task.assigned_to is defined %}
+                    <tr>
+                        <td>
+                            Acknowledged (by assigned staff)
+                        </td>
+                        <td>
+                            {{ task.acknowledged }}
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td>Task Status</td>
+                    <td>
+                        {{ task.status }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div> <!-- panel-body -->
+</div> <!-- panel -->
+{% endmacro %}
