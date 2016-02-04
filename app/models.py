@@ -209,8 +209,14 @@ class Task(db.Model):
         )
 
     @staticmethod
-    def update_updated(target, *args, **kwargs):
-        target.updated = datetime.utcnow()
+    def update_updated(target, value, oldvalue, *args, **kwargs):
+        # update this date every time a task is updated.
+        target.updated = datetime.now()
+
+        # If it was just completed, set that time.
+        if value != oldvalue and value == TaskStatus.DONE:
+            target.date_completed = datetime.now()
+
         db.session.add(target)
 
     @property

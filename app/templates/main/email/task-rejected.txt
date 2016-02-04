@@ -1,0 +1,11 @@
+Task Rejected.
+    Dear {{ task.requested_by.username }},
+    Your task request {{ task.description }} has been confirmed by the Administor.
+
+    It will be assigned to the next available staff member.
+    You will receive a notification upon it's completion.
+
+Sincerely,
+MainTraq Maintenance Tracker.
+
+Note: replies to this email address are not monitored.

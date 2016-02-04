@@ -8,7 +8,7 @@
 {% endblock title %}
 
 {% block page_content %}
-<div class="row">
+<div class="row update-page">
     <h1 class="page-header">Updating task: <a href="{{ url_for('main.view_task', task_id=task.id)}}">{{ task.description | truncate(40, True) | lower }}</a></h1>
 
     <div class="col-md-6">
@@ -19,6 +19,11 @@
         <h2>Task Update</h2> <hr>
         {{ macros.render_alert('alert-danger') }}
         {{ wtf.quick_form(form) }}
+        {% if current_user.is_admin %}
+            <br>
+            <a href="{{ url_for('main.reject_task', task_id=task.id)}}" class="btn btn-danger">Reject Task.</a>
+        {% endif %}
+
     </div>
 </div>
 {% endblock page_content %}

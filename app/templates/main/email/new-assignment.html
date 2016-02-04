@@ -1,0 +1,19 @@
+<p>Dear {{ task.assigned_to.username }},</p>
+<p>
+    A new Maintenance Task has been assigned to you.
+</p>
+<p>
+    <p style="padding: 20px; margin: 30px 0px 30px 30px; background-color: #DFDFDF; font-size: 16px; line-height: 2em;">
+        Description: {{ task.description }}<br>
+        Requested By: {{ task.requested_by.username }}<br>
+        Requested On: {{ task.date_requested.strftime('%a %b %d %H:%M:%S %Y') }}<br>
+    </p>
+    <a href="{{ url_for('main.view_task', task_id=task.id, _external=True) }}">Click Here</a>
+    to view it.
+</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>{{ url_for('main.view_task', task_id=task.id, _external=True) }}</p>
+
+<p>Sincerely,</p>
+<p>MainTraq Maintenance Tracker.</p>
+<p><small>Note: replies to this email address are not monitored.</small></p>

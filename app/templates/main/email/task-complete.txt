@@ -1,0 +1,19 @@
+Dear {{ user.username }},
+
+    A task has just been completed.
+
+    Description: {{ task.description }}
+    Requested By: {{ task.requested_by.username }}
+    Requested On: {{ task.date_requested.strftime('%a %b %d %H:%M:%S %Y') }}
+    Assigned To: {{ task.assigned_to.username }}
+    Completed On: {{ task.date_completed.strftime('%a %b %d %H:%M:%S %Y') }}
+    Marked as complete by: {{ updated_by.username }}
+
+    Use the link below to view it.
+    {{ url_for('main.view_task', task_id=task.id, _external=True) }}
+
+
+Sincerely,
+MainTraq Maintenance Tracker.
+
+Note: replies to this email address are not monitored.

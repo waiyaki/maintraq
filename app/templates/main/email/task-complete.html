@@ -1,0 +1,18 @@
+<h1>Task Completed.</h1><hr>
+<div style="padding: 20px; margin: 30px 0px 30px 30px; background-color: #DFDFDF; font-size: 16px; line-height: 2em;">
+    <p>Dear {{ user.username }},</p>
+    <p>A task has just been completed.</p>
+    <p style="padding: 0 10px;">
+        Description: {{ task.description }}<br>
+        Requested by: {{ task.requested_by.username }}
+        Requested On: {{ task.date_requested.strftime('%a %b %d %H:%M:%S %Y') }}<br>
+        Assigned To: {{ task.assigned_to.username }}<br>
+        Completed On: {{ task.date_completed.strftime('%a %b %d %H:%M:%S %Y') }}<br>
+        Marked as complete by: {{ updated_by.username }}
+    </p>
+</div>
+
+<p>Sincerely,</p>
+<p>MainTraq Maintenance Tracker.</p>
+
+<p><small>Note: replies to this email address are not monitored.</small></p>

@@ -1,0 +1,16 @@
+Dear {{ user.username }},
+
+    A new maintenance task has been requested.
+
+    Description: {{ task.description }}
+    Requested By: {{ task.requested_by.username }}
+    Requested On: {{ task.date_requested.strftime('%a %b %d %H:%M:%S %Y') }}
+
+    Use the link below to view it.
+    {{ url_for('main.view_task', task_id=task.id, _external=True) }}
+
+
+Sincerely,
+MainTraq Maintenance Tracker.
+
+Note: replies to this email address are not monitored.

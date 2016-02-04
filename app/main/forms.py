@@ -49,6 +49,7 @@ class AdminTaskUpdateForm(CommonTaskDetailsForm):
     assigned_to_id = SelectField("Assigned To", coerce=int)
     acknowledged = BooleanField("Acknowledge Receipt by Assignee")
     progress = SelectField("Task Status", coerce=int)
+    resolved = BooleanField("Resolved")
     submit = SubmitField("Update")
 
     def __init__(self, *args, **kwargs):
@@ -68,3 +69,7 @@ class AdminTaskUpdateForm(CommonTaskDetailsForm):
         id = field.data
         if not User.query.filter_by(id=int(id), is_maintenance=True).first():
             raise ValidationError("Selected choice is not a valid user.")
+
+
+class RejectTaskForm(Form):
+    rejection_reasons = TextAreaField("Comments about this rejection.")

@@ -1,0 +1,17 @@
+<h1>Task Resolved.</h1><hr>
+<div style="padding: 20px; margin: 30px 0px 30px 30px; background-color: #DFDFDF; font-size: 16px; line-height: 2em;">
+    <p>Dear {{ task.requested_by.username }},</p><br>
+    <p>The MainTraq Team is happy to inform you that the following Maintenance Request has been resolved:</p><br>
+    <p style="padding: 0 20px;">
+        Description: {{ task.description }}<br>
+        Requested On: {{ task.date_requested.strftime('%a %b %d %H:%M:%S %Y') }}<br>
+    </p>
+</div><br>
+<p style="font-weight: bold;">
+    Thank you for choosing MainTraq!
+</p>
+
+<p>Sincerely,</p>
+<p>MainTraq Maintenance Tracker.</p>
+
+<p><small>Note: replies to this email address are not monitored.</small></p>

@@ -1,0 +1,15 @@
+Task Resolved.
+
+    Dear {{ task.requested_by.username }},
+    The MainTraq Team is happy to inform you that the following Maintenance Request has been resolved:
+
+        Description: {{ task.description }}
+        Requested On: {{ task.date_requested.strftime('%a %b %d %H:%M:%S %Y') }}
+
+
+Thank you for choosing MainTraq!
+
+Sincerely,
+MainTraq Maintenance Tracker.
+
+Note: replies to this email address are not monitored.

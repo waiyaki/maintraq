@@ -1,0 +1,13 @@
+Dear {{ task.assigned_to.username }},
+
+A new Maintenance Task has been assigned to you.
+
+To view it, please use the link below.
+
+{{ url_for('main.view_task', task_id=task.id, _external=True) }}
+
+Sincerely,
+
+The MainTraq Team
+
+Note: replies to this email address are not monitored.

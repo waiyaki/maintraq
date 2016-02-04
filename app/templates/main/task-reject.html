@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "partials/_alert_messages.html" as macros %}
+
+{% block title %}
+    MainTraq - Task Request
+{% endblock title %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1 class="page-header">
+            <span style="color: red">Confirm Reject: </span> {{ task.description }}
+        </h1>
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h2>WARNING</h2>
+                </div>
+            </div>
+            <div class="panel-body">
+                <h3>This cannot be undone.</h3>
+                <p style="color: red">
+                    This will reject the request as well as delete it from the database.
+                </p>
+                <h4>Continue?</h4>
+            </div>
+        </div>
+
+        <form method="post" action="{{ url_for('main.reject_task', task_id=task.id)}}">
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        {{ wtf.form_field(form.rejection_reasons, class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <a href="{{ url_for('main.view_task', task_id=task.id)}}" class="btn btn-primary btn-lg" id="cancel">CANCEL</a>
+                        <button class="btn btn-danger btn-lg pull-right" type="submit" id="confirm">DELETE</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock page_content %}
