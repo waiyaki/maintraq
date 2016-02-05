@@ -86,6 +86,7 @@ def update_task(task_id):
             if task.assigned_to_id:
                 form.assigned_to_id.data = task.assigned_to_id
             form.progress.data = task.progress
+            form.resolved.data = task.resolved
         elif current_user.is_maintenance:
             form.acknowledged.data = task.acknowledged
             form.progress.data = task.progress
@@ -95,6 +96,10 @@ def update_task(task_id):
         form.facility.data = task.facility.id
 
     elif request.method == "POST":
+        if task.resolved:
+            flash("Refusing to update a resolved maintenance task. Please open a new one.")
+            return redirect(url_for('main.view_task', task_id=task.id))
+
         if form.validate_on_submit():
             # Cache state before, will need it to send emails.
             assigned_to = task.assigned_to_id

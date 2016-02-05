@@ -19,7 +19,7 @@
         <h2>Task Update</h2> <hr>
         {{ macros.render_alert('alert-danger') }}
         {{ wtf.quick_form(form) }}
-        {% if current_user.is_admin %}
+        {% if current_user.is_admin and not task.resolved %}
             <br>
             <a href="{{ url_for('main.reject_task', task_id=task.id)}}" class="btn btn-danger">Reject Task.</a>
         {% endif %}

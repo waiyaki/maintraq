@@ -17,9 +17,11 @@
                     </a>
                     <small>| Task Details.</small>
                 </h1>
-                <small>
-                    <a href="{{ url_for('main.update_task', task_id=task.id)}}">Update</a>
-                </small>
+                {% if not task.resolved %}
+                    <small>
+                        <a href="{{ url_for('main.update_task', task_id=task.id)}}">Update</a>
+                    </small>
+                {% endif %}
             </div>
 
             <div class="col-md-10 col-md-offset-1">
