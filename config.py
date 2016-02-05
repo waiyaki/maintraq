@@ -20,7 +20,7 @@ class Config:
 
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
     @staticmethod
     def init_app(app):

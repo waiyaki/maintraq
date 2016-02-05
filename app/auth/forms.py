@@ -4,7 +4,7 @@ from flask.ext.wtf import Form
 
 import phonenumbers
 from phonenumbers import phonenumberutil, carrier
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, HiddenField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import Required, Length, Email, Regexp, EqualTo, ValidationError
 
 from app.models import User
@@ -27,9 +27,6 @@ class RegistrationForm(Form):
                            )
                     ]
     )
-    phonenumber = StringField(
-        "Mobile Phone Number (prefix with country code)", validators=[Required(), Length(9, 13)])
-    phonenumber_locale = HiddenField()
     password = PasswordField(
         'Password',
         validators=[Required(), EqualTo('password2', message="The passwords did not match.")]

@@ -99,6 +99,9 @@ The `admin` is notified if any task is marked as done, so that they may mark it 
 
 All of the aforementioned improvements are currently in the `icebox` and are viewable in this [Trello Board.](https://trello.com/b/BJfAL79J/maintenance-tracker)
 
+#### BUGS
+* The page redirected to when the user is unconfirmed breaks at times.
+
 ### Conclusion
 Since this project is being used as part of a learning process, it's only fair I mention
 what I have learnt from it.

@@ -8,7 +8,8 @@ from app.models import Task, User, TaskStatus, Facility
 from app.utils import send_email
 
 from app.main.forms import (
-    TaskRequestForm, MaintainerTaskUpdateForm, AdminTaskUpdateForm, RejectTaskForm, FacilityForm
+    TaskRequestForm, MaintainerTaskUpdateForm, AdminTaskUpdateForm, RejectTaskForm, FacilityForm,
+    EditProfileAdminForm
 )
 
 
@@ -98,7 +99,7 @@ def update_task(task_id):
     elif request.method == "POST":
         if task.resolved:
             flash("Refusing to update a resolved maintenance task. Please open a new one.")
-            return redirect(url_for('main.view_task', task_id=task.id))
+            return redirect(url_for('main.update_task', task_id=task.id))
 
         if form.validate_on_submit():
             # Cache state before, will need it to send emails.
@@ -234,3 +235,48 @@ def create_facility():
         db.session.add(facility)
         return redirect(url_for('main.index'))
     return render_template('main/create-facility.html', form=form)
+
+
+@main.route('/edit-profile/<username>', methods=['GET', 'POST'])
+@login_required
+def edit_profile_admin(username):
+    if not current_user.is_admin:
+        abort(403)
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        abort(404)
+    form = EditProfileAdminForm(user=user)
+    if form.validate_on_submit():
+        try:
+            user.email = form.email.data
+            user.username = form.username.data
+            user.name = form.name.data
+            user.phonenumber = form.phonenumber.data if form.phonenumber.data else None
+            user.phonenumber_locale = form.phonenumber_locale if form.phonenumber.data else None
+            user.is_admin = form.is_admin.data
+            user.is_maintenance = form.is_maintenance.data
+            db.session.add(user)
+            db.session.commit()
+            flash("The profile has been updated.")
+            return redirect(url_for('main.users_list'))
+        except:
+            db.session.rollback()
+            flash("An error occurred while updating user information")
+            return redirect(url_for('main.edit_profile_admin', username=user.username))
+    form.email.data = user.email
+    form.username.data = user.username
+    form.name.data = user.name
+    form.is_admin.data = user.is_admin
+    form.is_maintenance.data = user.is_maintenance
+    form.phonenumber.data = user.phonenumber
+
+    return render_template('main/edit_profile.html', form=form, user=user)
+
+
+@main.route('/users')
+def users_list():
+    if not current_user.is_admin:
+        abort(403)
+    users = User.query.order_by(User.username.asc()).all()
+
+    return render_template('main/users-list.html', users=users)

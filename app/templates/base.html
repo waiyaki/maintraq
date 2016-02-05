@@ -67,16 +67,18 @@
                 </div>
                 {% if current_user.is_authenticated %}
                     <ul class="nav nav-sidebar">
-                        {% if current_user.is_admin %}
+                        <li><a href="{{url_for('main.task_request')}}">Maintenance Request</a></li>
+                    </ul><hr>
+                    {% if current_user.is_admin %}
+                        <ul class="nav nav-sidebar">
                             <li>
                                 <a href="{{ url_for('main.create_facility') }}">Create a Facility</a>
                             </li>
-                            <hr>
-                        {% endif %}
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li><a href="{{url_for('main.task_request')}}">Maintenance Request</a></li>
-                    </ul>
+                            <li>
+                                <a href="{{ url_for('main.users_list')}}">Users</a>
+                            </li>
+                        </ul><hr>
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="col-sm-9">

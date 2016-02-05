@@ -1,8 +1,12 @@
+from flask import flash
 from flask.ext.wtf import Form
 
-from wtforms import SubmitField, SelectField, StringField, TextAreaField, BooleanField
-from wtforms.validators import Required, Length, ValidationError
+from wtforms import SubmitField, SelectField, StringField, TextAreaField, BooleanField, HiddenField
+from wtforms.validators import Required, Length, ValidationError, Regexp, Email
 from wtforms_components import read_only
+import phonenumbers
+from phonenumbers import phonenumberutil
+from phonenumbers import carrier
 
 from app.models import Facility, User, TaskStatus
 
@@ -67,8 +71,8 @@ class AdminTaskUpdateForm(CommonTaskDetailsForm):
 
     def validate_assigned_to_id(self, field):
         id = field.data
-        if not User.query.filter_by(id=int(id), is_maintenance=True).first():
-            raise ValidationError("Selected choice is not a valid user.")
+        if not User.query.filter_by(id=id, is_maintenance=True).first():
+            flash("No user has been assigned to this task.")
 
 
 class RejectTaskForm(Form):
@@ -82,3 +86,59 @@ class FacilityForm(Form):
     def validate_name(self, field):
         if Facility.query.filter_by(name=field.data).first():
             raise ValidationError("This Facility exists.")
+
+
+class EditProfileAdminForm(Form):
+    email = StringField('Email', validators=[Required(), Length(1, 64), Email()])
+    username = StringField(
+        'Username',
+        validators=[Required(), Length(1, 64),
+                    Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
+                           'Usernames should only contain letters, numbers, dots or underscores'
+                           )
+                    ]
+    )
+    name = StringField('Real Name', validators=[Length(0, 64)])
+    phonenumber = StringField(
+        "Mobile Phone Number (prefix with country code)")
+    phonenumber_locale = HiddenField()
+    is_admin = BooleanField("Is Admin")
+    is_maintenance = BooleanField("Is Maintenance")
+    submit = SubmitField('Update')
+
+    def __init__(self, user, *args, **kwargs):
+        super(EditProfileAdminForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def validate_email(self, field):
+        if field.data != self.user.email and User.query.filter_by(email=field.data).first():
+            raise ValidationError('Email is already registered.')
+
+    def validate_username(self, field):
+        if field.data != self.user.username and User.query.filter_by(username=field.data).first():
+            raise ValidationError("Username is taken")
+
+    def validate_phonenumber(self, field):
+        data = field.data
+        print("DATA: ", data)
+        if not data:
+            # Don't validate if nothing was provided
+            return field
+        try:
+            if not data.startswith('+'):
+                # Maybe they forgot this?
+                data = '+' + data
+            parsed = phonenumbers.parse(data)
+        except:
+            flash("Please ensure you prefix the phone number with your country code.")
+            raise ValidationError("This is not a valid phone number")
+        user = User.query.filter_by(phonenumber=data).first()
+        if user and user.id != self.user.id:
+            raise ValidationError("Phone number already on record.")
+        if not phonenumbers.is_valid_number(parsed):
+            flash("Please ensure you prefix the phone number with your country code.")
+            raise ValidationError("This is not a valid phone number")
+
+        if not carrier._is_mobile(phonenumberutil.number_type(parsed)):
+            raise ValidationError("This phone number doesn't look like a mobile phone number")
+        self.phonenumber_locale = phonenumbers.region_code_for_country_code(parsed.country_code)

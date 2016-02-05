@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "partials/_alert_messages.html" as macros %}
+
+
+{% block title %}MainTraq - Users List{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header text-center">
+                <h1>Users List</h1>
+            </div>
+            <div class="row">
+                <div class="col-xs-10 col-sm-8 col-sm-offset-2 profile-form">
+                    {{ macros.render_alert('alert-info') }}
+                    <div class="list-group">
+                        {% if users | length > 0 %}
+                            {% for user in users %}
+                                <a href="{{ url_for('main.edit_profile_admin', username=user.username)}}" class="list-group-item"> {{ user.username }} </a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
