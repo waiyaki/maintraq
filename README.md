@@ -22,7 +22,7 @@ with its UI primarily being rendered by the `Jinja2` templating engine.
 * Provide email notifications to users once their requests are fulfilled
 
 ## Getting Started
-You can view the project's live demo [hosted up on Heroku.](maintraq.herokuapp.com)
+You can view the project's live demo [hosted up on Heroku.](https://maintraq.herokuapp.com)
 
 **NOTE:** Access to the site will require you to sign up.
 
