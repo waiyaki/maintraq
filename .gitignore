@@ -61,6 +61,7 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 dev-data.db
+data.db
 test-data.db
 heroku_setup.sh
 nuke_heroku.sh
