@@ -9,7 +9,7 @@ obtain feedback about the same from the facility admin.
 The **facility** can be (but not limited to) an organisation or an
 organisation's department.
 
-__MainTraq__ is written in Python by leveraging the the [Flask microframework.](http://flask.pocoo.org/)
+__MainTraq__ is written in Python by leveraging the the [Flask microframework](http://flask.pocoo.org/)
 with its UI primarily being rendered by the `Jinja2` templating engine.
 
 ## Main Features
