@@ -22,7 +22,7 @@ Jinja2==2.10.1
 Mako==1.0.9
 MarkupSafe==1.1.1
 phonenumbers==8.10.10
-pip==19.1
+pip==21.1
 psycopg2==2.8.2
 python-dateutil==2.8.0
 python-editor==1.0.4
