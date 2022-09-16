@@ -19,7 +19,7 @@ infinity==1.4
 intervals==0.8.1
 itsdangerous==1.1.0
 Jinja2==2.10.1
-Mako==1.0.9
+Mako==1.2.2
 MarkupSafe==1.1.1
 phonenumbers==8.10.10
 pip==19.1
